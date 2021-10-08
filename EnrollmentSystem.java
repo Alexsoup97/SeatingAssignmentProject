@@ -15,6 +15,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JLabel;
+import javax.swing.JComboBox;
 
 public class EnrollmentSystem {
     private static ArrayList<Student> studentList = new ArrayList <Student>();
@@ -33,7 +35,12 @@ public class EnrollmentSystem {
         "Friends" };
         DefaultTableModel model = new DefaultTableModel();
         //set columns header
-        JTable table = new JTable(model);
+        JTable table = new JTable(model){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
         model.setColumnIdentifiers(columns);
     
         // Change A JTable Background Color, Font Size, Font Color, Row Height
@@ -52,6 +59,18 @@ public class EnrollmentSystem {
         JButton btnAdd = new JButton("Add");
         JButton btnDelete = new JButton("Delete");
         JButton btnUpdate = new JButton("Update");
+
+        JLabel errorMessage = new JLabel();
+
+       // JComboBox<Student> friendPrefOne = new JComboBox<Student>();
+
+
+        errorMessage.setBounds(350, 250, 150, 25);
+  
+
+
+
+
         
         textName.setBounds(20, 220, 150, 25);
         textID.setBounds(20, 250, 150, 25);
@@ -75,6 +94,7 @@ public class EnrollmentSystem {
         frame.add(textID);
         frame.add(textCohort);
         frame.add(textFriends);
+        frame.add(errorMessage);
         
         // add JButtons to the jframe
         frame.add(btnAdd);
@@ -93,7 +113,10 @@ public class EnrollmentSystem {
         data[1] = Integer.valueOf(textID.getText());
         data[2] = textCohort.getText();
         data[3] = textFriends.getText();
-        
+        textName.setText("");
+        textID.setText("");
+        textCohort.setText("");
+        textFriends.setText("");
         addStudent((String)data[0],(int)data[1], (String)data[2]);
         model.addRow(data);
         }
@@ -107,14 +130,19 @@ public class EnrollmentSystem {
         
         // i = the index of the selected row
         int i = table.getSelectedRow();
-        removeStudent((int)model.getValueAt(i,1));
+  
 
 
         if (i >= 0) {
         // remove a row from jtable
+        removeStudent((int)model.getValueAt(i,1));
         model.removeRow(i);
+        textName.setText("");
+        textID.setText("");
+        textCohort.setText("");
+        textFriends.setText("");
         } else {
-        System.out.println("Cannot delete");
+        errorMessage.setText("Please select a valid row");
         }
         }
         });
@@ -187,9 +215,7 @@ public class EnrollmentSystem {
         for(Student s: studentList){
 
             System.out.println(s.getId());
-        }
-        
+        }        
     }
 
-      
 }

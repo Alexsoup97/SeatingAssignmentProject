@@ -22,7 +22,6 @@ public class SystemManager extends JFrame {
     super("Seating Assignment Manager");
     this.thisFrame = this; 
     JPanel mainPanel = new MainPanel();
-    //TestPanel testPanel = new TestPanel();
 
     
     //configure the window
@@ -74,7 +73,6 @@ public class SystemManager extends JFrame {
     class MainPanel extends JPanel { 
 
         public void paintComponent(Graphics g) {   
-           System.out.print("Test");
           super.paintComponent(g); //required
           setDoubleBuffered(true);
         }

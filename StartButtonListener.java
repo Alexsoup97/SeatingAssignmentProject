@@ -26,13 +26,6 @@ public class StartButtonListener implements ActionListener {
     parentFrame = parent;
   }
 
-  // public StartButtonListener(JFrame parent, int buttonOption,JPanel panel) { 
-  //   this.buttonOption=buttonOption;
-  //   this.panel = panel;
-  //   parentFrame = parent;
-  // }
-
-
   /**
   * actionPerformed 
   * checks all interactions when a key is pressed
