@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 public class StartButtonListener implements ActionListener {  
   JFrame parentFrame;
   private int buttonOption; 
-  JPanel panel;
+  //JPanel panel;
   
   
   /**
@@ -26,11 +26,11 @@ public class StartButtonListener implements ActionListener {
     parentFrame = parent;
   }
 
-  public StartButtonListener(JFrame parent, int buttonOption,JPanel panel) { 
-    this.buttonOption=buttonOption;
-    this.panel = panel;
-    parentFrame = parent;
-  }
+  // public StartButtonListener(JFrame parent, int buttonOption,JPanel panel) { 
+  //   this.buttonOption=buttonOption;
+  //   this.panel = panel;
+  //   parentFrame = parent;
+  // }
 
 
   /**
@@ -44,9 +44,11 @@ public class StartButtonListener implements ActionListener {
     if (buttonOption == 1) { //Button 1 is enrollment system
 
     
-    parentFrame.getContentPane().removeAll();
-    parentFrame.add(panel); 
-    parentFrame.setVisible(true);
+    // parentFrame.getContentPane().removeAll();
+    // parentFrame.add(panel); 
+    // parentFrame.setVisible(true);
+    parentFrame.dispose();
+    new EnrollmentSystem();
 
     } else if (buttonOption == 2) { //Button 2 is floor plan system
 

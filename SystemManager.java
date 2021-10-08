@@ -14,7 +14,7 @@ import java.awt.Dimension;
 
 public class SystemManager extends JFrame {
     
-    private EnrollmentSystem enrollSystem = new EnrollmentSystem();
+    //private EnrollmentSystem enrollSystem = new EnrollmentSystem();
 
     JFrame thisFrame;
 
@@ -22,11 +22,11 @@ public class SystemManager extends JFrame {
     super("Seating Assignment Manager");
     this.thisFrame = this; 
     JPanel mainPanel = new MainPanel();
-    TestPanel testPanel = new TestPanel();
+    //TestPanel testPanel = new TestPanel();
 
     
     //configure the window
-    this.setSize(1325, 750);    
+    this.setSize(900, 400);    
     this.setLocationRelativeTo(null); //start the frame in the center of the screen
     this.setResizable (false);
     
@@ -34,7 +34,7 @@ public class SystemManager extends JFrame {
     JButton enrollButton = new JButton("Enrollment System");
     enrollButton.setPreferredSize(new Dimension(240, 50));
     enrollButton.setBackground(new Color(0, 0, 0, 0)); // button color
-    enrollButton.addActionListener(new StartButtonListener(this,1, testPanel));
+    enrollButton.addActionListener(new StartButtonListener(this,1));
     
     //Create a JButton for the centerPanel
     JButton instButton = new JButton("Floor Plan System");
