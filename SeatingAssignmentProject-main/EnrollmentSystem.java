@@ -60,6 +60,8 @@ public class EnrollmentSystem {
         JButton btnAdd = new JButton("Add");
         JButton btnDelete = new JButton("Delete");
         JButton btnUpdate = new JButton("Update");
+        JButton btnBack = new JButton("Back");
+
 
         JLabel errorMessage = new JLabel();
         errorMessage.setForeground (Color.red);
@@ -69,19 +71,17 @@ public class EnrollmentSystem {
 
 
         errorMessage.setBounds(350, 250, 300, 25);
-  
-
         
-        textName.setBounds(20, 220, 150, 25);
-        textID.setBounds(20, 250, 150, 25);
-        textCohort.setBounds(20, 280, 150, 25);
-        textFriends.setBounds(20, 310, 150, 25);
+        textName.setBounds(20, 240, 150, 25);
+        textID.setBounds(20, 270, 150, 25);
+        textCohort.setBounds(20, 300, 150, 25);
+        textFriends.setBounds(20, 330, 150, 25);
 
 
-        
-        btnAdd.setBounds(200, 220, 100, 25);
-        btnUpdate.setBounds(200, 265, 100, 25);
-        btnDelete.setBounds(200, 310, 100, 25);
+        btnBack.setBounds(10, 210, 100, 25);
+        btnAdd.setBounds(200, 240, 100, 25);
+        btnUpdate.setBounds(200, 285, 100, 25);
+        btnDelete.setBounds(200, 330, 100, 25);
         
         // create JScrollPane
         JScrollPane pane = new JScrollPane(table);
@@ -102,6 +102,7 @@ public class EnrollmentSystem {
         frame.add(btnAdd);
         frame.add(btnDelete);
         frame.add(btnUpdate);
+        frame.add(btnBack);
         
         // create an array of objects to set the row data
         Object[] data = new Object[4];
@@ -112,18 +113,23 @@ public class EnrollmentSystem {
         @Override
         public void actionPerformed(ActionEvent e) {
         
-
-
             try{
                 data[0] = textName.getText();
                 data[1] = Integer.valueOf(textID.getText());
                 data[2] = textCohort.getText();
                 data[3] = textFriends.getText();
             }catch(NumberFormatException a){
-                data[0]=null;
-                data[1]=null;
-                data[2]=null;
-                data[3]=null;
+                // data[0]=null;
+                // data[1]=null;
+                // data[2]=null;
+                // data[3]=null;
+  
+                for (int i=0; i <4; i++){
+                    data[i]= null;
+                }
+                // for(Object objects: data){
+                //     objects == null;
+                // }   
 
                 errorMessage.setText("Inccorect Inputs");
                 clearErrorMessage(errorMessage);
@@ -139,12 +145,6 @@ public class EnrollmentSystem {
 
         }
         });
-        
-
-
-//it wont delete the first input ater you have two rows of input
-
-
 
         // button remove row - Clicked on Delete Button
         btnDelete.addActionListener(new ActionListener() {
@@ -157,7 +157,8 @@ public class EnrollmentSystem {
 
         if (i >= 0) {
         // remove a row from jtable
-        removeStudent((int)model.getValueAt(i,1));
+        //removeStudent((int)model.getValueAt(i,1));
+        removeStudent(i);
         model.removeRow(i);
         textName.setText("");
         textID.setText("");
@@ -213,10 +214,6 @@ public class EnrollmentSystem {
 
 
             }catch(NumberFormatException a){
-                data[0] = null;
-                data[1] =null;
-                data[2] = null;
-                data[3] = null;
                 errorMessage.setText("Inccorect Inputs");
                 clearErrorMessage(errorMessage);
             }
@@ -230,6 +227,15 @@ public class EnrollmentSystem {
         }
         }
         });
+
+         btnBack.addActionListener(new ActionListener() {
+        
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                new SystemManager();
+            }
+            });
         
         frame.setSize(900, 400);
         frame.setLocationRelativeTo(null);
@@ -244,31 +250,35 @@ public class EnrollmentSystem {
 
     }
 
-    public static void removeStudent(int id) {
+    public static void removeStudent(int i) {
 
-        for(int i = 0; i < studentList.size(); i++){
-            if(studentList.get(i).getId() == id){
-                studentList.remove(i);
-            } 
-        }
+        studentList.remove(i);
+
+        // for(int i = 0; i < studentList.size(); i++){
+        //     if(studentList.get(i).getId() == id){
+        //         studentList.remove(i);
+        //     } 
+        // }
 
     }
 
     public static void updateStudent(int i, String name, int id, String cohort) {
-        studentList.remove(i);
-        studentList.add(new Student(name, id, cohort));
-
+        studentList.get(i).setName(name);
+        studentList.get(i).setID(id);
+        studentList.get(i).setCohort(cohort);
     }
 
+
     public static void clearErrorMessage(JLabel errorMessage){
+
         //if you spam update error, the timer doesnt work
-        // Timer timer = new Timer (2500, new ActionListener(){
-        //     public void actionPerformed (ActionEvent e){
-        //         errorMessage.setText("");
-        //     }
-        // });
-        // timer.start();
-    
+        Timer timer = new Timer (2500, new ActionListener(){
+            public void actionPerformed (ActionEvent e){
+                errorMessage.setText("");
+            }
+        });
+        timer.start();
+        
     }
 
     public  static void displayStudents() {
