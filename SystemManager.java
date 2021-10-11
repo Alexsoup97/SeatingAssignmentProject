@@ -1,11 +1,14 @@
 import javax.swing.JFrame;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
+import java.awt.Image;
 
 public class SystemManager extends JFrame {
 
@@ -13,7 +16,7 @@ public class SystemManager extends JFrame {
     
     private static EnrollmentSystem enrollSys = new EnrollmentSystem();
 
-   
+    private Image csLogo;
 
   
 
@@ -38,7 +41,7 @@ public class SystemManager extends JFrame {
     //Create a JButton for the centerPanel
     JButton enrollButton = new JButton("Enrollment System");
     enrollButton.setPreferredSize(new Dimension(240, 50));
-    enrollButton.setBackground(new Color(0, 0, 0, 0)); // button color
+    enrollButton.setBackground(new Color(255, 255, 255));
 
     enrollButton.addActionListener(new ActionListener(){
       public void actionPerformed(ActionEvent event) { 
@@ -52,13 +55,14 @@ public class SystemManager extends JFrame {
     //Create a JButton for the centerPanel
     JButton instButton = new JButton("Floor Plan System");
     instButton.setPreferredSize(new Dimension(240, 50));
-    instButton.setBackground(new Color(0, 0, 0, 0));
-    instButton.addActionListener(new StartButtonListener(this,2));
+    instButton.setBackground(new Color(255, 255, 255));
+    instButton.addActionListener(new StartButtonListener(this, 2));
  
     //Create a JButton for the centerPanel
     JButton exitButton = new JButton("Seating Arrangment System");
     exitButton.setPreferredSize(new Dimension(240, 50));
-    exitButton.addActionListener(new StartButtonListener(this,3));
+    exitButton.setBackground(new Color(255, 255, 255));
+    exitButton.addActionListener(new StartButtonListener(this, 3));
 
     
     mainPanel.add(enrollButton);
@@ -75,14 +79,13 @@ public class SystemManager extends JFrame {
     this.requestFocusInWindow();
   }
 
-    public static void main(String[] args) {
-
-     
-
-        new SystemManager();
-
-
-        
+    public void drawLogo(Graphics g) {
+      try {
+        csLogo = ImageIO.read(new File("cslogo.png")).getScaledInstance(300, 200, Image.SCALE_DEFAULT);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      g.drawImage(csLogo, 300, 100, null);
     }
 
 
@@ -91,7 +94,10 @@ public class SystemManager extends JFrame {
         public void paintComponent(Graphics g) {   
           super.paintComponent(g); //required
           setDoubleBuffered(true);
+          drawLogo(g);
         }
       } 
-    
+    public static void main(String[] args) {
+        new SystemManager();
+    }
 }
