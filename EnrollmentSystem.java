@@ -5,6 +5,13 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JScrollPane;
 
+/**
+ * [EnrollmentSystem.java]
+ * 
+ * @author 
+ * @version 1.0 
+**/
+
 public class EnrollmentSystem {
 
     private static ArrayList<Student> studentList = new ArrayList <Student>();
@@ -13,21 +20,17 @@ public class EnrollmentSystem {
     private JScrollPane pane;
 
     public EnrollmentSystem(){
-     
-
             // create a table model and set a Column Identifiers to this model
             Object[] columns = { "Name", "ID", "Cohort","Friends" };
 
             this.model = new DefaultTableModel();
             //set columns header
             this.table = new JTable(model){
-
                 @Override
                 public boolean isCellEditable(int row, int column){
                     return false;
                 }
             };
-
 
             model.setColumnIdentifiers(columns);
         
@@ -43,26 +46,18 @@ public class EnrollmentSystem {
     }
 
     public JScrollPane getPane(){
-
-        
         return pane;
-
     }
 
     public int getRow(){
         return table.getSelectedRow();
-
     }
 
     public String getValue(int i, int j){
         return model.getValueAt(i, j).toString();
     }
 
-
-    
-    
     public void updateStudent(int i, Object[] data) {
-
         String name = (String) data[0];
         int id = (int) data[1];
         String cohort = (String) data[2];
@@ -71,7 +66,6 @@ public class EnrollmentSystem {
         studentList.get(i).setId(id);
         studentList.get(i).setCohort(cohort);
 
-        
         model.setValueAt(data[0], i, 0);
         model.setValueAt(data[1], i, 1);
         model.setValueAt(data[2], i, 2);
@@ -79,34 +73,24 @@ public class EnrollmentSystem {
     }
 
     public void removeStudent(int i) {
-
         studentList.remove(i);
         model.removeRow(i);
-
         // for(int i = 0; i < studentList.size(); i++){
         //     if(studentList.get(i).getId() == id){
         //         studentList.remove(i);
         //     } 
         // }
-
     }
 
     public void addStudent(Object[] data) {  
-
-
         model.addRow(data);
         String name = (String)data[0];
         int id = (int) data[1];
         String cohort = (String) data[2];
-        
-
         studentList.add(new Student(name, id, cohort));
-
     }
     
     public ArrayList<Student> getStudentList(){
         return studentList;
     }
-    
-
 }

@@ -1,6 +1,10 @@
-
+/**
+ * [Student.java]
+ * 
+ * @author 
+ * @version 1.0 
+**/
 public class Student{
-
 
     private String name;
     private int id;
@@ -49,6 +53,5 @@ public class Student{
     // public void setFriendPreferences(Student[] friendPreferences) {
     //     this.friendPreferences = friendPreferences;
     // }
-
 
 }

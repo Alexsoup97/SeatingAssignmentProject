@@ -3,13 +3,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 /**
-* [StartButtonListener.java]
-* This is a class that is used to detect a button press
-* @author Jayeong Lee, Mr. Mangat
-* @version 1.0 2021/06/15
+ * [ButtonListener.java]
+ * 
+ * @author 
+ * @version 1.0 
 **/
 
-public class StartButtonListener implements ActionListener {  
+public class ButtonListener implements ActionListener {  
   JFrame parentFrame;
   private int buttonOption; 
   //JPanel panel;
@@ -20,7 +20,7 @@ public class StartButtonListener implements ActionListener {
   * @param parent, the JFrame of the Starting Frame
   * @param buttonOption, number that corresponds with the button pressed in the starting frame
   */
-  public StartButtonListener(JFrame parent, int buttonOption) { 
+  public ButtonListener(JFrame parent, int buttonOption) { 
     this.buttonOption=buttonOption;
     parentFrame = parent;
   }
@@ -43,18 +43,9 @@ public class StartButtonListener implements ActionListener {
    
 
     } else if (buttonOption == 2) { //Button 2 is floor plan system
-
-
+      
     } else if (buttonOption == 3) { //Button 3 is seating assignment system
       System.exit(0);
     }
   }  
 }
-
-  
-  
-
-
-  
-  
- 
