@@ -107,6 +107,11 @@ public class EnrollmentSystemPanel {
                     data[1] = Integer.valueOf(textID.getText());
                     data[2] = textCohort.getText();
                     data[3] = textFriends.getText();
+                    textName.setText("");
+                    textID.setText("");
+                    textCohort.setText("");
+                    textFriends.setText("");
+                    sys.addStudent(data);
                 }catch(NumberFormatException a){
                     // data[0]=null;
                     // data[1]=null;
@@ -124,11 +129,7 @@ public class EnrollmentSystemPanel {
                     clearErrorMessage(errorMessage);
                 }
 
-            textName.setText("");
-            textID.setText("");
-            textCohort.setText("");
-            textFriends.setText("");
-            sys.addStudent(data);
+      
     
             }
         });
@@ -235,8 +236,9 @@ public class EnrollmentSystemPanel {
                 errorMessage.setText("");
             }
         });
-        timer.start();
         
+        timer.start();
+        timer.setRepeats(false);
     }
 
     public static void displayStudents() {
