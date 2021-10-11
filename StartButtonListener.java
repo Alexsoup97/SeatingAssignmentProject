@@ -1,7 +1,6 @@
 import javax.swing.JFrame;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JPanel;
 
 /**
 * [StartButtonListener.java]
@@ -41,7 +40,7 @@ public class StartButtonListener implements ActionListener {
     // parentFrame.add(panel); 
     // parentFrame.setVisible(true);
     parentFrame.dispose();
-    new EnrollmentSystem();
+   
 
     } else if (buttonOption == 2) { //Button 2 is floor plan system
 

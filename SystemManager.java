@@ -1,25 +1,31 @@
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.SwingUtilities;
-import java.awt.image.BufferedImage; 
-import javax.imageio.ImageIO;
-import java.io.File;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class SystemManager extends JFrame {
+
+  
     
-    //private EnrollmentSystem enrollSystem = new EnrollmentSystem();
+    private static EnrollmentSystem enrollSys = new EnrollmentSystem();
+
+   
+
+  
+
+   
 
     JFrame thisFrame;
 
    SystemManager() { 
     super("Seating Assignment Manager");
+  
+
+
     this.thisFrame = this; 
     JPanel mainPanel = new MainPanel();
 
@@ -33,7 +39,15 @@ public class SystemManager extends JFrame {
     JButton enrollButton = new JButton("Enrollment System");
     enrollButton.setPreferredSize(new Dimension(240, 50));
     enrollButton.setBackground(new Color(0, 0, 0, 0)); // button color
-    enrollButton.addActionListener(new StartButtonListener(this,1));
+
+    enrollButton.addActionListener(new ActionListener(){
+      public void actionPerformed(ActionEvent event) { 
+        thisFrame.dispose();
+        new EnrollmentSystemPanel(enrollSys);
+
+      }
+
+    });
     
     //Create a JButton for the centerPanel
     JButton instButton = new JButton("Floor Plan System");
@@ -62,6 +76,8 @@ public class SystemManager extends JFrame {
   }
 
     public static void main(String[] args) {
+
+     
 
         new SystemManager();
 
