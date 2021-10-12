@@ -26,7 +26,7 @@ public class SystemManager extends JFrame {
         this.thisFrame = this;
         JPanel mainPanel = new MainPanel();
 
-        //configure the window
+        //configure the window  
         this.setSize(900, 400);
         this.setLocationRelativeTo(null); //start the frame in the center of the screen
         this.setResizable(false);
@@ -43,10 +43,10 @@ public class SystemManager extends JFrame {
         });
 
         //Create a JButton for the centerPanel
-        JButton instButton = new JButton("Floor Plan System");
-        instButton.setPreferredSize(new Dimension(240, 50));
-        instButton.setBackground(new Color(255, 255, 255));
-        instButton.addActionListener(new ButtonListener(this, 2));
+        // JButton instButton = new JButton("Floor Plan System");
+        // instButton.setPreferredSize(new Dimension(240, 50));
+        // instButton.setBackground(new Color(255, 255, 255));
+        // instButton.addActionListener(new ButtonListener(this, 2));
 
         //Create a JButton for the centerPanel
         JButton exitButton = new JButton("Seating Arrangment System");
@@ -55,7 +55,7 @@ public class SystemManager extends JFrame {
         exitButton.addActionListener(new ButtonListener(this, 3));
 
         mainPanel.add(enrollButton);
-        mainPanel.add(instButton);
+       // mainPanel.add(instButton);
         mainPanel.add(exitButton);
 
         //add the main panel to the frame

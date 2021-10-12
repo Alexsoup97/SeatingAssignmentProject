@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -37,7 +35,7 @@ public class EnrollmentSystemPanel {
         JTextField textName = new JTextField();
         JTextField textID = new JTextField();
         JTextField textCohort = new JTextField();
-        JTextField textFriends = new JTextField();
+       // JTextField textFriends = new JTextField();
 
         // create JButtons to add the action
         JButton btnAdd = new JButton("Add");
@@ -49,14 +47,20 @@ public class EnrollmentSystemPanel {
         errorMessage.setForeground(Color.red);
         errorMessage.setFont(new Font("Calibri", Font.BOLD, 25));
 
-        JComboBox<Student> test = new JComboBox<Student>();
+        JComboBox<String> friendPrefOne = new JComboBox<String>(sys.getStudentNames());
+        JComboBox<String> friendPrefTwo = new JComboBox<String>(sys.getStudentNames());
+        JComboBox<String> friendPrefThree = new JComboBox<String>(sys.getStudentNames());
+    
 
         errorMessage.setBounds(350, 250, 300, 25);
 
         textName.setBounds(20, 205, 150, 25);
         textID.setBounds(20, 237, 150, 25);
         textCohort.setBounds(20, 270, 150, 25);
-        textFriends.setBounds(20, 300, 150, 25);
+        friendPrefOne.setBounds(370, 205, 150,25);
+        friendPrefTwo.setBounds(540, 205, 150,25);
+        friendPrefThree.setBounds(710, 205, 150,25);
+       // textFriends.setBounds(20, 300, 150, 25);
 
         btnBack.setBounds(20, 330, 100, 25);
         btnAdd.setBounds(200, 205, 100, 25);
@@ -65,12 +69,16 @@ public class EnrollmentSystemPanel {
 
         frame.setLayout(null);
         frame.add(sys.getPane());
+        frame.add(friendPrefOne);
+        frame.add(friendPrefTwo);
+        frame.add(friendPrefThree);
+    
 
         // add JTextFields to the jframe
         frame.add(textName);
         frame.add(textID);
         frame.add(textCohort);
-        frame.add(textFriends);
+        //frame.add(textFriends);
         frame.add(errorMessage);
 
         // add JButtons to the jframe
@@ -89,11 +97,27 @@ public class EnrollmentSystemPanel {
                     data[0] = textName.getText();
                     data[1] = Integer.valueOf(textID.getText());
                     data[2] = textCohort.getText();
-                    data[3] = textFriends.getText();
+
+                    data[3] = "";
+                
+                    if(friendPrefOne.getSelectedItem() != null){
+                        data[3] +=  friendPrefOne.getSelectedItem() + ", ";
+                    }
+
+                    if(friendPrefTwo.getSelectedItem() != null){
+                        data[3] +=  friendPrefTwo.getSelectedItem() + ", ";
+                    }
+                    if(friendPrefThree.getSelectedItem() != null){
+                        data[3] +=  friendPrefThree.getSelectedItem() + ", ";
+                    }
+
+
+                    
+                   // data[3] = textFriends.getText();
                     textName.setText("");
                     textID.setText("");
                     textCohort.setText("");
-                    textFriends.setText("");
+                   // textFriends.setText("");
                     sys.addStudent(data);
                 } catch (NumberFormatException a) {
                     // data[0]=null;
@@ -106,7 +130,7 @@ public class EnrollmentSystemPanel {
                     // for(Object objects: data){
                     //     objects == null;
                     // }   
-                    errorMessage.setText("Inccorect Inputs");
+                    errorMessage.setText("Incorrect Inputs");
                     clearErrorMessage(errorMessage);
                 }
             }
@@ -127,7 +151,7 @@ public class EnrollmentSystemPanel {
                     textName.setText("");
                     textID.setText("");
                     textCohort.setText("");
-                    textFriends.setText("");
+                    //textFriends.setText("");
                 } else {
                     errorMessage.setText("Please select a valid row");
                     clearErrorMessage(errorMessage);
@@ -145,7 +169,7 @@ public class EnrollmentSystemPanel {
                 textName.setText(sys.getValue(i, 0));
                 textID.setText(sys.getValue(i, 1));
                 textCohort.setText(sys.getValue(i, 2));
-                textFriends.setText(sys.getValue(i, 3));
+              //  textFriends.setText(sys.getValue(i, 3));
             }
         });
 
@@ -161,7 +185,7 @@ public class EnrollmentSystemPanel {
                         data[0] = textName.getText();
                         data[1] = Integer.valueOf(textID.getText());
                         data[2] = textCohort.getText();
-                        data[3] = textFriends.getText();
+                       // data[3] = textFriends.getText();
                         sys.updateStudent(i, data);
                     } catch (NumberFormatException a) {
                         errorMessage.setText("Inccorect Inputs");

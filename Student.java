@@ -9,15 +9,16 @@ public class Student{
     private String name;
     private int id;
     private String cohort;
-    //Student[] friendPreferences;
+    Student[] friendPreferences;
+    String group;
 
 
-    public Student(String name, int id, String cohort){
+    public Student(String name, int id, String cohort, Student[] friendPreferences){
 
         this.name = name;
         this.id = id;
         this.cohort = cohort;
-        //this.friendPreferences = friendPrefences;
+        this.friendPreferences = friendPreferences;
 
     }
 
@@ -46,12 +47,12 @@ public class Student{
         this.cohort = cohort;
     }
 
-    // public Student[] getFriendPreferences() {
-    //     return this.friendPreferences;
-    // }
+    public Student[] getFriendPreferences() {
+        return this.friendPreferences;
+    }
 
-    // public void setFriendPreferences(Student[] friendPreferences) {
-    //     this.friendPreferences = friendPreferences;
-    // }
+    public void setFriendPreferences(Student[] friendPreferences) {
+        this.friendPreferences = friendPreferences;
+    }
 
 }

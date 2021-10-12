@@ -66,6 +66,8 @@ public class EnrollmentSystem {
         studentList.get(i).setId(id);
         studentList.get(i).setCohort(cohort);
 
+
+
         model.setValueAt(data[0], i, 0);
         model.setValueAt(data[1], i, 1);
         model.setValueAt(data[2], i, 2);
@@ -83,14 +85,46 @@ public class EnrollmentSystem {
     }
 
     public void addStudent(Object[] data) {  
+
+        Student[] friends = new Student[3];
+        String  listOfFriends = (String)data[3];
+        if(!listOfFriends.equals("")){
+            data[3] = listOfFriends.substring(0, listOfFriends.length()-2);
+        }
         model.addRow(data);
         String name = (String)data[0];
         int id = (int) data[1];
         String cohort = (String) data[2];
-        studentList.add(new Student(name, id, cohort));
+        
+        // for(Student s: studentList){
+        //     int i = 0;
+
+        //     if(s.getName().equals()){
+
+        //         friends[i] = s;
+        //         i++;
+
+        //     }
+
+        // }
+        
+        studentList.add(new Student(name, id, cohort, friends));
     }
     
     public ArrayList<Student> getStudentList(){
         return studentList;
     }
+
+    public String[] getStudentNames(){
+
+        String[] studentNames = new String[studentList.size()];
+
+        for(int i = 0; i < studentList.size(); i++){
+            studentNames[i] = studentList.get(i).getName();
+        }
+
+        return studentNames;
+
+    }
+
 }
