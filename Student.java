@@ -8,17 +8,19 @@ public class Student{
 
     private String name;
     private int id;
-    private String cohort;
-    Student[] friendPreferences;
+    private int grade;
+    int[] friendPreferences;
     String group;
 
+  
 
-    public Student(String name, int id, String cohort, Student[] friendPreferences){
+    public Student(String name, int id, int grade, int[] friendPreferences, String group){
 
         this.name = name;
         this.id = id;
-        this.cohort = cohort;
+        this.grade = grade;
         this.friendPreferences = friendPreferences;
+        this.group = group;
 
     }
 
@@ -39,20 +41,31 @@ public class Student{
         this.id = id;
     }
 
-    public String getCohort() {
-        return this.cohort;
+    public int getGrade() {
+        return this.grade;
     }
 
-    public void setCohort(String cohort) {
-        this.cohort = cohort;
+    public void setGrade(int grade) {
+        this.grade = grade;
     }
 
-    public Student[] getFriendPreferences() {
+    public int[] getFriendPreferences() {
         return this.friendPreferences;
     }
 
-    public void setFriendPreferences(Student[] friendPreferences) {
+    public void setFriendPreferences(int[] friendPreferences) {
         this.friendPreferences = friendPreferences;
     }
+
+    public String getGroup() {
+        return this.group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+    
+
+    
 
 }

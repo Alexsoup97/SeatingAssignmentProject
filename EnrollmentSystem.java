@@ -21,7 +21,7 @@ public class EnrollmentSystem {
 
     public EnrollmentSystem(){
             // create a table model and set a Column Identifiers to this model
-            Object[] columns = { "Name", "ID", "Cohort","Friends" };
+            Object[] columns = { "Name", "ID", "Grade", "Friends", "Group"};
 
             this.model = new DefaultTableModel();
             //set columns header
@@ -41,7 +41,7 @@ public class EnrollmentSystem {
             table.setFont(font);
             table.setRowHeight(20);
             pane = new JScrollPane(table);           
-            pane.setBounds(0, 0, 880, 200);
+            pane.setBounds(0, 0, 900, 200);
 
     }
 
@@ -57,14 +57,18 @@ public class EnrollmentSystem {
         return model.getValueAt(i, j).toString();
     }
 
+
+
     public void updateStudent(int i, Object[] data) {
         String name = (String) data[0];
         int id = (int) data[1];
-        String cohort = (String) data[2];
+        int grade = (int) data[2];
+        String group = (String) data[4];
 
         studentList.get(i).setName(name);
         studentList.get(i).setId(id);
-        studentList.get(i).setCohort(cohort);
+        studentList.get(i).setGrade(grade);
+        studentList.get(i).setGroup(group);
 
 
 
@@ -72,6 +76,7 @@ public class EnrollmentSystem {
         model.setValueAt(data[1], i, 1);
         model.setValueAt(data[2], i, 2);
         model.setValueAt(data[3], i, 3);
+        model.setValueAt(data[4], i, 4);
     }
 
     public void removeStudent(int i) {
@@ -84,17 +89,17 @@ public class EnrollmentSystem {
         // }
     }
 
-    public void addStudent(Object[] data) {  
+    public void addStudent(Object[] data, int[] friends) {  
 
-        Student[] friends = new Student[3];
-        String  listOfFriends = (String)data[3];
-        if(!listOfFriends.equals("")){
-            data[3] = listOfFriends.substring(0, listOfFriends.length()-2);
-        }
+
+       
+        
         model.addRow(data);
+      
         String name = (String)data[0];
         int id = (int) data[1];
-        String cohort = (String) data[2];
+        int grade = (int) data[2];
+        String group = (String) data[4];
         
         // for(Student s: studentList){
         //     int i = 0;
@@ -108,7 +113,8 @@ public class EnrollmentSystem {
 
         // }
         
-        studentList.add(new Student(name, id, cohort, friends));
+        studentList.add(new Student(name, id, grade, friends, group));
+        
     }
     
     public ArrayList<Student> getStudentList(){

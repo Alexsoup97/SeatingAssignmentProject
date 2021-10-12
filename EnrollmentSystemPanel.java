@@ -31,10 +31,14 @@ public class EnrollmentSystemPanel {
         // create JFrame and JTable
         JFrame frame = new JFrame();
 
+        String[] groups = {"Game Development", "Web Development", "Competitive Programming"};
+        
+
         // create JTextFields to hold the value
         JTextField textName = new JTextField();
         JTextField textID = new JTextField();
-        JTextField textCohort = new JTextField();
+        JTextField textGrade = new JTextField();
+
        // JTextField textFriends = new JTextField();
 
         // create JButtons to add the action
@@ -46,39 +50,59 @@ public class EnrollmentSystemPanel {
         JLabel errorMessage = new JLabel();
         errorMessage.setForeground(Color.red);
         errorMessage.setFont(new Font("Calibri", Font.BOLD, 25));
-
-        JComboBox<String> friendPrefOne = new JComboBox<String>(sys.getStudentNames());
-        JComboBox<String> friendPrefTwo = new JComboBox<String>(sys.getStudentNames());
-        JComboBox<String> friendPrefThree = new JComboBox<String>(sys.getStudentNames());
-    
-
         errorMessage.setBounds(350, 250, 300, 25);
 
-        textName.setBounds(20, 205, 150, 25);
-        textID.setBounds(20, 237, 150, 25);
-        textCohort.setBounds(20, 270, 150, 25);
+        JLabel name = new JLabel("Name");
+        JLabel ID = new JLabel("Student ID");
+        JLabel grade = new JLabel("Grade");
+        name.setForeground(Color.black);
+        ID.setForeground(Color.black);
+        grade.setForeground(Color.black);
+        name.setFont(new Font("Calibri", Font.ITALIC, 15));
+        ID.setFont(new Font("Calibri", Font.ITALIC, 15));
+        grade.setFont(new Font("Calibri", Font.ITALIC, 15));
+        name.setBounds(20, 205, 300, 25);
+        ID.setBounds(20, 260, 250, 25);
+        grade.setBounds(20, 315, 300, 25);
+    
+        textName.setBounds(20, 230, 150, 25);
+        textID.setBounds(20, 285, 150, 25);
+        textGrade.setBounds(20, 340, 150, 25);
+        textName.setOpaque(true);
+        textID.setOpaque(true);
+        textGrade.setOpaque(true);
+
+        JTextField friendPrefOne = new JTextField();
+        JTextField friendPrefTwo = new JTextField();
+        JTextField friendPrefThree = new JTextField();
+        JComboBox<String> group = new JComboBox<String>(groups);
+
         friendPrefOne.setBounds(370, 205, 150,25);
         friendPrefTwo.setBounds(540, 205, 150,25);
         friendPrefThree.setBounds(710, 205, 150,25);
+        group.setBounds(710, 300, 175, 25);
        // textFriends.setBounds(20, 300, 150, 25);
 
-        btnBack.setBounds(20, 330, 100, 25);
-        btnAdd.setBounds(200, 205, 100, 25);
-        btnUpdate.setBounds(200, 237, 100, 25);
-        btnDelete.setBounds(200, 270, 100, 25);
+        btnBack.setBounds(20, 400, 100, 25);
+        btnAdd.setBounds(200, 230, 100, 25);
+        btnUpdate.setBounds(200, 285, 100, 25);
+        btnDelete.setBounds(200, 340, 100, 25);
 
         frame.setLayout(null);
         frame.add(sys.getPane());
         frame.add(friendPrefOne);
         frame.add(friendPrefTwo);
         frame.add(friendPrefThree);
+        frame.add(group);
     
 
         // add JTextFields to the jframe
         frame.add(textName);
         frame.add(textID);
-        frame.add(textCohort);
-        //frame.add(textFriends);
+        frame.add(textGrade);
+        frame.add(name);
+        frame.add(ID);
+        frame.add(grade);
         frame.add(errorMessage);
 
         // add JButtons to the jframe
@@ -88,43 +112,57 @@ public class EnrollmentSystemPanel {
         frame.add(btnBack);
 
         // create an array of objects to set the row data
-        Object[] data = new Object[4];
+        Object[] data = new Object[5];
         // button add row - Clicked on Add Button
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+
+                    int friends[] = new int[3];
                     data[0] = textName.getText();
                     data[1] = Integer.valueOf(textID.getText());
-                    data[2] = textCohort.getText();
+                    data[2] = Integer.valueOf(textGrade.getText());
+                    data[3] = friendPrefOne.getText() + "," + friendPrefTwo.getText() + "," + friendPrefThree.getText();
+                    data[4] = group.getSelectedItem();
 
-                    data[3] = "";
-                
-                    if(friendPrefOne.getSelectedItem() != null){
-                        data[3] +=  friendPrefOne.getSelectedItem() + ", ";
+                    if(!friendPrefOne.getText().equals("")){
+                        friends[0] = Integer.valueOf(friendPrefOne.getText());
+
+                    }else{
+                        friends[0] = -1;
                     }
 
-                    if(friendPrefTwo.getSelectedItem() != null){
-                        data[3] +=  friendPrefTwo.getSelectedItem() + ", ";
+                    if(!friendPrefTwo.getText().equals("")){
+                        friends[1] = Integer.valueOf(friendPrefTwo.getText());
+
+                    }else{
+                        friends[1] = -1;
                     }
-                    if(friendPrefThree.getSelectedItem() != null){
-                        data[3] +=  friendPrefThree.getSelectedItem() + ", ";
+                    if(!friendPrefThree.getText().equals("")){
+                        friends[2] = Integer.valueOf(friendPrefThree.getText());
+
+                    }else{
+                        friends[2] = -1;
                     }
+
 
 
                     
-                   // data[3] = textFriends.getText();
                     textName.setText("");
                     textID.setText("");
-                    textCohort.setText("");
+                    textGrade.setText("");
+                    friendPrefOne.setText("");
+                    friendPrefTwo.setText("");
+                    friendPrefThree.setText("");
                    // textFriends.setText("");
-                    sys.addStudent(data);
+                    sys.addStudent(data, friends);
                 } catch (NumberFormatException a) {
                     // data[0]=null;
                     // data[1]=null;
                     // data[2]=null;
                     // data[3]=null;
-                    for (int i = 0; i < 4; i++) {
+                    for (int i = 0; i < 5; i++) {
                         data[i] = null;
                     }
                     // for(Object objects: data){
@@ -150,8 +188,11 @@ public class EnrollmentSystemPanel {
                     sys.removeStudent(i);
                     textName.setText("");
                     textID.setText("");
-                    textCohort.setText("");
-                    //textFriends.setText("");
+                    textGrade.setText("");
+                    friendPrefOne.setText("");
+                    friendPrefTwo.setText("");
+                    friendPrefThree.setText("");
+                  
                 } else {
                     errorMessage.setText("Please select a valid row");
                     clearErrorMessage(errorMessage);
@@ -168,7 +209,9 @@ public class EnrollmentSystemPanel {
                 int i = sys.getRow();
                 textName.setText(sys.getValue(i, 0));
                 textID.setText(sys.getValue(i, 1));
-                textCohort.setText(sys.getValue(i, 2));
+                textGrade.setText(sys.getValue(i, 2)); 
+                group.setSelectedItem(sys.getValue(i,4));
+                
               //  textFriends.setText(sys.getValue(i, 3));
             }
         });
@@ -184,7 +227,9 @@ public class EnrollmentSystemPanel {
                     try {
                         data[0] = textName.getText();
                         data[1] = Integer.valueOf(textID.getText());
-                        data[2] = textCohort.getText();
+                        data[2] = Integer.valueOf(textGrade.getText());
+
+                        data[4] = group.getSelectedItem(); 
                        // data[3] = textFriends.getText();
                         sys.updateStudent(i, data);
                     } catch (NumberFormatException a) {
@@ -204,7 +249,7 @@ public class EnrollmentSystemPanel {
                 new SystemManager();
             }
         });
-        frame.setSize(900, 400);
+        frame.setSize(900, 500);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
