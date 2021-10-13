@@ -18,9 +18,11 @@ import java.awt.Image;
 **/
 
 public class SystemManager extends JFrame {
-    private static EnrollmentSystem enrollSys = new EnrollmentSystem();
+    private  EnrollmentSystem enrollSys = new EnrollmentSystem();
     private Image csLogo;
     JFrame thisFrame;
+    //private SeatingAssignmentSystem seatingPlan  = new SeatingAssignmentSystem();
+
     public SystemManager() {
         super("Seating Assignment Manager");
         this.thisFrame = this;
@@ -46,7 +48,13 @@ public class SystemManager extends JFrame {
         JButton instButton = new JButton("Floor Plan System");
         instButton.setPreferredSize(new Dimension(240, 50));
         instButton.setBackground(new Color(255, 255, 255));
-        instButton.addActionListener(new ButtonListener(this, 2));
+        instButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+            //   seatingPlan.arrangeStudents(enrollSys.getStudentList());
+            }
+        });
+
+
 
         //Create a JButton for the centerPanel
         JButton exitButton = new JButton("Exit");

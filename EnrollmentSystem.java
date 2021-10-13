@@ -59,7 +59,7 @@ public class EnrollmentSystem {
 
 
 
-    public void updateStudent(int i, Object[] data) {
+    public void updateStudent(int i, Object[] data, int[] friends) {
         String name = (String) data[0];
         int id = (int) data[1];
         int grade = (int) data[2];
@@ -69,6 +69,7 @@ public class EnrollmentSystem {
         studentList.get(i).setId(id);
         studentList.get(i).setGrade(grade);
         studentList.get(i).setGroup(group);
+        studentList.get(i).setFriendPreferences(friends);
 
 
 
@@ -82,37 +83,16 @@ public class EnrollmentSystem {
     public void removeStudent(int i) {
         studentList.remove(i);
         model.removeRow(i);
-        // for(int i = 0; i < studentList.size(); i++){
-        //     if(studentList.get(i).getId() == id){
-        //         studentList.remove(i);
-        //     } 
-        // }
+     
     }
 
     public void addStudent(Object[] data, int[] friends) {  
 
-
-       
-        
         model.addRow(data);
-      
         String name = (String)data[0];
         int id = (int) data[1];
         int grade = (int) data[2];
-        String group = (String) data[4];
-        
-        // for(Student s: studentList){
-        //     int i = 0;
-
-        //     if(s.getName().equals()){
-
-        //         friends[i] = s;
-        //         i++;
-
-        //     }
-
-        // }
-        
+        String group = (String) data[4];    
         studentList.add(new Student(name, id, grade, friends, group));
         
     }
@@ -121,16 +101,8 @@ public class EnrollmentSystem {
         return studentList;
     }
 
-    public String[] getStudentNames(){
+  
 
-        String[] studentNames = new String[studentList.size()];
-
-        for(int i = 0; i < studentList.size(); i++){
-            studentNames[i] = studentList.get(i).getName();
-        }
-
-        return studentNames;
-
-    }
+   
 
 }

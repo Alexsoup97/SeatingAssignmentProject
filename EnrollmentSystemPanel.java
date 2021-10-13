@@ -206,13 +206,32 @@ public class EnrollmentSystemPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // i = the index of the selected row
+                int[] updatedFriends;
                 int i = sys.getRow();
                 textName.setText(sys.getValue(i, 0));
                 textID.setText(sys.getValue(i, 1));
                 textGrade.setText(sys.getValue(i, 2)); 
                 group.setSelectedItem(sys.getValue(i,4));
-                
-              //  textFriends.setText(sys.getValue(i, 3));
+
+                updatedFriends = sys.getStudentList().get(i).getFriendPreferences();
+
+                if(updatedFriends[0] == -1){
+                    friendPrefOne.setText("");
+                }else {
+                    friendPrefOne.setText(Integer.toString(updatedFriends[0]));
+                }
+
+                if(updatedFriends[1] == -1){
+                    friendPrefTwo.setText("");
+                }else{
+                    friendPrefTwo.setText(Integer.toString(updatedFriends[1]));
+                }
+
+                if(updatedFriends[2] == -1){
+                    friendPrefThree.setText("");
+                }else{
+                    friendPrefThree.setText(Integer.toString(updatedFriends[2]));
+                }
             }
         });
 
@@ -225,13 +244,35 @@ public class EnrollmentSystemPanel {
                 int i = sys.getRow();
                 if (i >= 0) {
                     try {
+
+                        int[] friends = new int[3];
+                        
+                        if(!friendPrefOne.getText().equals("")){
+                            friends[0] = Integer.valueOf(friendPrefOne.getText());
+                        }else{
+                            friends[0] = -1;
+                        }
+
+                        if(!friendPrefTwo.getText().equals("")){
+                            friends[1] = Integer.valueOf(friendPrefTwo.getText());
+    
+                        }else{
+                            friends[1] = -1;
+                        }
+                        if(!friendPrefThree.getText().equals("")){
+                            friends[2] = Integer.valueOf(friendPrefThree.getText());
+    
+                        }else{
+                            friends[2] = -1;
+                        }
+
                         data[0] = textName.getText();
                         data[1] = Integer.valueOf(textID.getText());
                         data[2] = Integer.valueOf(textGrade.getText());
-
                         data[4] = group.getSelectedItem(); 
-                       // data[3] = textFriends.getText();
-                        sys.updateStudent(i, data);
+
+                        data[3] = friendPrefOne.getText() + "," + friendPrefTwo.getText() + "," + friendPrefThree.getText();
+                        sys.updateStudent(i, data, friends);
                     } catch (NumberFormatException a) {
                         errorMessage.setText("Inccorect Inputs");
                         clearErrorMessage(errorMessage);
