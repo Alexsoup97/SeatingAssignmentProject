@@ -10,6 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+import java.util.ArrayList;
+import java.io.IOException;
+
 
 /**
  * [EnrollmentSystemPanel.java]
@@ -20,14 +26,39 @@ import javax.swing.JComboBox;
 
 public class EnrollmentSystemPanel {
 
-    private static EnrollmentSystem sys;
+    private static ArrayList<Student> studentList = new ArrayList <Student>();
+    private static JTable table;
+    private static DefaultTableModel model;
+    private static JScrollPane pane;
 
-    public EnrollmentSystemPanel(EnrollmentSystem system) {
-        sys = system;
+    public EnrollmentSystemPanel() {
+          // create a table model and set a Column Identifiers to this model
+          Object[] columns = { "Name", "ID", "Grade", "Friends", "Group"};
+
+          model = new DefaultTableModel();
+          //set columns header
+          table = new JTable(model){
+              @Override
+              public boolean isCellEditable(int row, int column){
+                  return false;
+              }
+          };
+
+          model.setColumnIdentifiers(columns);
+      
+          // Change A JTable Background Color, Font Size, Font Color, Row Height
+          table.setForeground(Color.black);
+          Font font = new Font("Calibri", Font.ITALIC, 15);
+          
+          table.setFont(font);
+          table.setRowHeight(20);
+          pane = new JScrollPane(table);           
+          pane.setBounds(0, 0, 900, 200);
+
         generateJTable();
     }
 
-    public static void generateJTable() {
+    public void generateJTable() {
         // create JFrame and JTable
         JFrame frame = new JFrame();
 
@@ -93,7 +124,7 @@ public class EnrollmentSystemPanel {
         btnDelete.setBounds(690, 340, 100, 25);
 
         frame.setLayout(null);
-        frame.add(sys.getPane());
+        frame.add(pane);
         frame.add(friendPrefOne);
         frame.add(friendPrefTwo);
         frame.add(friendPrefThree);
@@ -130,14 +161,15 @@ public class EnrollmentSystemPanel {
                     String friendList;
                     data[0] = textName.getText();
                     data[1] = Integer.valueOf(textID.getText());
-                    data[2] = Integer.valueOf(textGrade.getText());
-                    data[3] += friendPrefOne.getText() + ",";
-                    data[3] += friendPrefTwo.getText() + ",";
-                    data[3] += friendPrefThree.getText() + ",";
-                    friendList = (String)data[3];
-                    
-                    data[3] = friendList.substring(0,friendList.length()-1);
+                   
+                    if(Integer.valueOf(textGrade.getText()) < 9 || Integer.valueOf(textGrade.getText()) > 12){
+                        throw new IOException();
+                    }else{
+
+                        data[2] = Integer.valueOf(textGrade.getText());
+                    }
             
+                    data[3] =  (friendPrefOne.getText() + " " + friendPrefTwo.getText() + " " + friendPrefThree.getText());
                     data[4] = group.getSelectedItem();
 
                     if(!friendPrefOne.getText().equals("")){
@@ -145,6 +177,7 @@ public class EnrollmentSystemPanel {
 
                     }else{
                         friends[0] = -1;
+                        
                     }
 
                     if(!friendPrefTwo.getText().equals("")){
@@ -152,6 +185,8 @@ public class EnrollmentSystemPanel {
 
                     }else{
                         friends[1] = -1;
+                       
+
                     }
                     if(!friendPrefThree.getText().equals("")){
                         friends[2] = Integer.valueOf(friendPrefThree.getText());
@@ -170,19 +205,14 @@ public class EnrollmentSystemPanel {
                     friendPrefTwo.setText("");
                     friendPrefThree.setText("");
                    // textFriends.setText("");
-                    sys.addStudent(data, friends);
+                    addStudent(data, friends);
                 } catch (NumberFormatException a) {
-                    // data[0]=null;
-                    // data[1]=null;
-                    // data[2]=null;
-                    // data[3]=null;
-                    for (int i = 0; i < 5; i++) {
-                        data[i] = null;
-                    }
-                    // for(Object objects: data){
-                    //     objects == null;
-                    // }   
-                    errorMessage.setText("Incorrect Inputs");
+          
+                    errorMessage.setText("Invalid Input");
+                    clearErrorMessage(errorMessage);
+                }catch(IOException b){
+    
+                    errorMessage.setText("Invalid Grade");
                     clearErrorMessage(errorMessage);
                 }
             }
@@ -194,12 +224,12 @@ public class EnrollmentSystemPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // i = the index of the selected row
-                int i = sys.getRow();
+                int i = table.getSelectedRow();
 
                 if (i >= 0) {
                     // remove a row from jtable
-                    //removeStudent((int)model.getValueAt(i,1));
-                    sys.removeStudent(i);
+                 
+                    removeStudent(i);
                     textName.setText("");
                     textID.setText("");
                     textGrade.setText("");
@@ -215,19 +245,19 @@ public class EnrollmentSystemPanel {
         });
 
         // get selected row data From table to textfields
-        sys.table.addMouseListener(new MouseAdapter() {
+        table.addMouseListener(new MouseAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
                 // i = the index of the selected row
                 int[] updatedFriends;
-                int i = sys.getRow();
-                textName.setText(sys.getValue(i, 0));
-                textID.setText(sys.getValue(i, 1));
-                textGrade.setText(sys.getValue(i, 2)); 
-                group.setSelectedItem(sys.getValue(i,4));
+                int i = table.getSelectedRow();
+                textName.setText(getValue(i, 0));
+                textID.setText(getValue(i, 1));
+                textGrade.setText(getValue(i, 2)); 
+                group.setSelectedItem(getValue(i,4));
 
-                updatedFriends = sys.getStudentList().get(i).getFriendPreferences();
+                updatedFriends = studentList.get(i).getFriendPreferences();
 
                 if(updatedFriends[0] == -1){
                     friendPrefOne.setText("");
@@ -255,7 +285,7 @@ public class EnrollmentSystemPanel {
             public void actionPerformed(ActionEvent e) {
                 displayStudents();
                 // i = the index of the selected row
-                int i = sys.getRow();
+                int i = table.getSelectedRow();
                 if (i >= 0) {
                     try {
 
@@ -282,13 +312,21 @@ public class EnrollmentSystemPanel {
 
                         data[0] = textName.getText();
                         data[1] = Integer.valueOf(textID.getText());
-                        data[2] = Integer.valueOf(textGrade.getText());
+                        if(Integer.valueOf(textGrade.getText()) < 9 || Integer.valueOf(textGrade.getText()) > 12){
+                            throw new IOException();
+                        }else{
+    
+                            data[2] = Integer.valueOf(textGrade.getText());
+                        }
                         data[4] = group.getSelectedItem(); 
 
-                        data[3] = friendPrefOne.getText() + "," + friendPrefTwo.getText() + "," + friendPrefThree.getText();
-                        sys.updateStudent(i, data, friends);
+                        data[3] = friendPrefOne.getText() + " " + friendPrefTwo.getText() + " " + friendPrefThree.getText();
+                        updateStudent(i, data, friends);
                     } catch (NumberFormatException a) {
                         errorMessage.setText("Inccorect Inputs");
+                        clearErrorMessage(errorMessage);
+                    }catch(IOException b){
+                        errorMessage.setText("Invalid Grade");
                         clearErrorMessage(errorMessage);
                     }
                 } else {
@@ -320,12 +358,58 @@ public class EnrollmentSystemPanel {
         });
 
         timer.start();
-        timer.setRepeats(false);
+        timer.setRepeats(false);    
     }
 
     public static void displayStudents() {
-        for (Student s: sys.getStudentList()) {
+        for (Student s: studentList) {
             System.out.println(s.getId());
         }
+    }
+
+    public static String getValue(int i, int j){
+        return model.getValueAt(i, j).toString();
+    }
+
+    public static void removeStudent(int i) {
+        studentList.remove(i);
+        model.removeRow(i);
+     
+    }
+
+    public static void updateStudent(int i, Object[] data, int[] friends) {
+        String name = (String) data[0];
+        int id = (int) data[1];
+        int grade = (int) data[2];
+        String group = (String) data[4];
+
+        studentList.get(i).setName(name);
+        studentList.get(i).setId(id);
+        studentList.get(i).setGrade(grade);
+        studentList.get(i).setGroup(group);
+        studentList.get(i).setFriendPreferences(friends);
+        
+        model.setValueAt(data[0], i, 0);
+        model.setValueAt(data[1], i, 1);
+        model.setValueAt(data[2], i, 2);
+        model.setValueAt(data[3], i, 3);
+        model.setValueAt(data[4], i, 4);
+    }
+
+
+
+    public static void addStudent(Object[] data, int[] friends) {  
+
+        model.addRow(data);
+        String name = (String)data[0];
+        int id = (int) data[1];
+        int grade = (int) data[2];
+        String group = (String) data[4];    
+        studentList.add(new Student(name, id, grade, friends, group));
+        
+    }
+
+    public ArrayList<Student> getStudentList(){
+        return studentList;
     }
 }

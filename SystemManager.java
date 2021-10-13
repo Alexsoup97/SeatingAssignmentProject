@@ -18,7 +18,7 @@ import java.awt.Image;
 **/
 
 public class SystemManager extends JFrame {
-    private  EnrollmentSystem enrollSys = new EnrollmentSystem();
+    private static EnrollmentSystemPanel enrollSys = new EnrollmentSystemPanel();
     private Image csLogo;
     JFrame thisFrame;
     //private SeatingAssignmentSystem seatingPlan  = new SeatingAssignmentSystem();
@@ -40,7 +40,7 @@ public class SystemManager extends JFrame {
         enrollButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 thisFrame.dispose();
-                new EnrollmentSystemPanel(enrollSys);
+                enrollSys.generateJTable();
             }
         });
 
@@ -60,7 +60,11 @@ public class SystemManager extends JFrame {
         JButton exitButton = new JButton("Exit");
         exitButton.setPreferredSize(new Dimension(240, 50));
         exitButton.setBackground(new Color(255, 255, 255));
-        exitButton.addActionListener(new ButtonListener(this, 3));
+        exitButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent event) {
+                 System.exit(0);
+            }
+        });
 
         mainPanel.add(enrollButton);
         mainPanel.add(instButton);
@@ -79,7 +83,7 @@ public class SystemManager extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        g.drawImage(csLogo, 300, 130, null);
+        g.drawImage(csLogo, 300, 100, null);
     }
     class MainPanel extends JPanel {
 
