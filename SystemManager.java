@@ -19,14 +19,17 @@ import java.awt.Image;
 
 public class SystemManager extends JFrame {
     private static EnrollmentSystemPanel enrollSys = new EnrollmentSystemPanel();
+    private FloorPlanSystem floorPlan = new FloorPlanSystem();
     private Image csLogo;
     JFrame thisFrame;
+   
     //private SeatingAssignmentSystem seatingPlan  = new SeatingAssignmentSystem();
 
     public SystemManager() {
         super("Seating Assignment Manager");
         this.thisFrame = this;
         JPanel mainPanel = new MainPanel();
+        
 
         //configure the window  
         this.setSize(900, 500);
@@ -50,7 +53,15 @@ public class SystemManager extends JFrame {
         instButton.setBackground(new Color(255, 255, 255));
         instButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-            //   seatingPlan.arrangeStudents(enrollSys.getStudentList());
+                seatingPlan.arrangeStudents(floorPlan, enrollSys.getStudentList());
+                thisFrame.dispose();
+                JFrame floorFrame = new JFrame();
+                JPanel floorPanel = new FloorPanel();
+                floorFrame.setVisible(true);
+                floorFrame.setSize(900, 500);
+                floorFrame.setLocationRelativeTo(null); // start the frame in the center of the screen
+                floorFrame.setResizable(true);
+                floorFrame.add(floorPanel);
             }
         });
 
@@ -92,6 +103,17 @@ public class SystemManager extends JFrame {
             setDoubleBuffered(true);
             drawLogo(g);
         }
+    }
+    class FloorPanel extends JPanel {
+
+        public void paintComponent(Graphics g) {
+
+            super.paintComponent(g); // required
+            setDoubleBuffered(true);
+            floorPlan.displayTables(g);
+
+        }
+
     }
     public static void main(String[] args) {
         new SystemManager();
