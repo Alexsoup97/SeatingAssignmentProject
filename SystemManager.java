@@ -79,7 +79,7 @@ public class SystemManager extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        g.drawImage(csLogo, 300, 100, null);
+        g.drawImage(csLogo, 300, 130, null);
     }
     class MainPanel extends JPanel {
 

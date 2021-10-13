@@ -15,13 +15,11 @@ public class Student{
   
 
     public Student(String name, int id, int grade, int[] friendPreferences, String group){
-
         this.name = name;
         this.id = id;
         this.grade = grade;
         this.friendPreferences = friendPreferences;
         this.group = group;
-
     }
 
     

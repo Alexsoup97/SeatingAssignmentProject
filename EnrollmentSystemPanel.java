@@ -50,43 +50,47 @@ public class EnrollmentSystemPanel {
         JLabel errorMessage = new JLabel();
         errorMessage.setForeground(Color.red);
         errorMessage.setFont(new Font("Calibri", Font.BOLD, 25));
-        errorMessage.setBounds(350, 250, 300, 25);
+        errorMessage.setBounds(460, 400, 300, 20);
 
         JLabel name = new JLabel("Name");
         JLabel ID = new JLabel("Student ID");
         JLabel grade = new JLabel("Grade");
+        JLabel friends = new JLabel("Friends (Student ID)");
+        JLabel groupText = new JLabel("Group");
         name.setForeground(Color.black);
-        ID.setForeground(Color.black);
-        grade.setForeground(Color.black);
         name.setFont(new Font("Calibri", Font.ITALIC, 15));
+        name.setBounds(50, 205, 300, 25);
+        ID.setForeground(Color.black);
         ID.setFont(new Font("Calibri", Font.ITALIC, 15));
+        ID.setBounds(50, 260, 250, 25);
+        grade.setForeground(Color.black);
         grade.setFont(new Font("Calibri", Font.ITALIC, 15));
-        name.setBounds(20, 205, 300, 25);
-        ID.setBounds(20, 260, 250, 25);
-        grade.setBounds(20, 315, 300, 25);
+        grade.setBounds(50, 315, 300, 25);
+        friends.setForeground(Color.black);
+        friends.setFont(new Font("Calibri", Font.ITALIC, 15));
+        friends.setBounds(260, 205, 300, 25);
+        groupText.setForeground(Color.black);
+        groupText.setFont(new Font("Calibri", Font.ITALIC, 15));
+        groupText.setBounds(460, 205, 300, 25);
     
-        textName.setBounds(20, 230, 150, 25);
-        textID.setBounds(20, 285, 150, 25);
-        textGrade.setBounds(20, 340, 150, 25);
-        textName.setOpaque(true);
-        textID.setOpaque(true);
-        textGrade.setOpaque(true);
+        textName.setBounds(50, 230, 150, 25);
+        textID.setBounds(50, 285, 150, 25);
+        textGrade.setBounds(50, 340, 150, 25);
 
         JTextField friendPrefOne = new JTextField();
         JTextField friendPrefTwo = new JTextField();
         JTextField friendPrefThree = new JTextField();
         JComboBox<String> group = new JComboBox<String>(groups);
 
-        friendPrefOne.setBounds(370, 205, 150,25);
-        friendPrefTwo.setBounds(540, 205, 150,25);
-        friendPrefThree.setBounds(710, 205, 150,25);
-        group.setBounds(710, 300, 175, 25);
-       // textFriends.setBounds(20, 300, 150, 25);
+        friendPrefOne.setBounds(260, 230, 150, 25);
+        friendPrefTwo.setBounds(260, 285, 150, 25);
+        friendPrefThree.setBounds(260, 340, 150, 25);
+        group.setBounds(460, 230, 175, 25);
 
-        btnBack.setBounds(20, 400, 100, 25);
-        btnAdd.setBounds(200, 230, 100, 25);
-        btnUpdate.setBounds(200, 285, 100, 25);
-        btnDelete.setBounds(200, 340, 100, 25);
+        btnBack.setBounds(50, 400, 100, 25);
+        btnAdd.setBounds(690, 230, 100, 25);
+        btnUpdate.setBounds(690, 285, 100, 25);
+        btnDelete.setBounds(690, 340, 100, 25);
 
         frame.setLayout(null);
         frame.add(sys.getPane());
@@ -103,6 +107,8 @@ public class EnrollmentSystemPanel {
         frame.add(name);
         frame.add(ID);
         frame.add(grade);
+        frame.add(friends);
+        frame.add(groupText);
         frame.add(errorMessage);
 
         // add JButtons to the jframe
@@ -120,10 +126,18 @@ public class EnrollmentSystemPanel {
                 try {
 
                     int friends[] = new int[3];
+                    data[3] = "";
+                    String friendList;
                     data[0] = textName.getText();
                     data[1] = Integer.valueOf(textID.getText());
                     data[2] = Integer.valueOf(textGrade.getText());
-                    data[3] = friendPrefOne.getText() + "," + friendPrefTwo.getText() + "," + friendPrefThree.getText();
+                    data[3] += friendPrefOne.getText() + ",";
+                    data[3] += friendPrefTwo.getText() + ",";
+                    data[3] += friendPrefThree.getText() + ",";
+                    friendList = (String)data[3];
+                    
+                    data[3] = friendList.substring(0,friendList.length()-1);
+            
                     data[4] = group.getSelectedItem();
 
                     if(!friendPrefOne.getText().equals("")){
