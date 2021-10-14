@@ -12,18 +12,18 @@ import java.awt.Image;
 
 /**
  * [SystemManager.java]
- * 
- * @author 
+ * Manages the seating assignment, student enrollment and floor plan system
+ * @author Alex, Nicholas, Samson
  * @version 1.0 
 **/
 
 public class SystemManager extends JFrame {
-    private static EnrollmentSystemPanel enrollSys = new EnrollmentSystemPanel();
-    private FloorPlanSystem floorPlan = new FloorPlanSystem();
+    public static EnrollmentSystemPanel enrollSys = new EnrollmentSystemPanel();
+    public static FloorPlanSystem floorPlan = new FloorPlanSystem(new String[]{"intro", "contest", "web"});
     private Image csLogo;
     JFrame thisFrame;
    
-    //private SeatingAssignmentSystem seatingPlan  = new SeatingAssignmentSystem();
+    public static SeatingAssignmentSystem seatingPlan  = new SeatingAssignmentSystem();
 
     public SystemManager() {
         super("Seating Assignment Manager");
@@ -53,19 +53,13 @@ public class SystemManager extends JFrame {
         instButton.setBackground(new Color(255, 255, 255));
         instButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                seatingPlan.arrangeStudents(floorPlan, enrollSys.getStudentList());
                 thisFrame.dispose();
-                JFrame floorFrame = new JFrame();
-                JPanel floorPanel = new FloorPanel();
-                floorFrame.setVisible(true);
-                floorFrame.setSize(900, 500);
-                floorFrame.setLocationRelativeTo(null); // start the frame in the center of the screen
-                floorFrame.setResizable(true);
-                floorFrame.add(floorPanel);
+                floorPlan = new FloorPlanSystem(new String[]{"intro", "contest", "web"});
+                seatingPlan =  new SeatingAssignmentSystem();
+                seatingPlan.arrangeStudents(floorPlan, enrollSys.getStudentList());
+                floorPlan.displayTables();
             }
         });
-
-
 
         //Create a JButton for the centerPanel
         JButton exitButton = new JButton("Exit");
@@ -88,6 +82,11 @@ public class SystemManager extends JFrame {
         this.requestFocusInWindow();
     }
 
+    
+    /**drawLogo 
+     * draws the RHHS Computer Science Logo
+     * @param g the graphics panel
+     */
     public void drawLogo(Graphics g) {
         try {
             csLogo = ImageIO.read(new File("cslogo.png")).getScaledInstance(300, 200, Image.SCALE_DEFAULT);
@@ -96,24 +95,20 @@ public class SystemManager extends JFrame {
         }
         g.drawImage(csLogo, 300, 100, null);
     }
-    class MainPanel extends JPanel {
 
+    class MainPanel extends JPanel {
         public void paintComponent(Graphics g) {
-            super.paintComponent(g); //required
+            super.paintComponent(g); 
             setDoubleBuffered(true);
             drawLogo(g);
         }
     }
+
     class FloorPanel extends JPanel {
-
         public void paintComponent(Graphics g) {
-
-            super.paintComponent(g); // required
+            super.paintComponent(g); 
             setDoubleBuffered(true);
-            floorPlan.displayTables(g);
-
         }
-
     }
     public static void main(String[] args) {
         new SystemManager();
