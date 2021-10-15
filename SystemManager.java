@@ -12,62 +12,55 @@ import java.awt.Image;
 
 /**
  * [SystemManager.java]
- * 
- * @author 
- * @version 1.0 
+ * Manages the seating assignment, student enrollment and floor plan system
+ * @author Alex, Nicholas, Samson
+ * @version 1.0 Oct 14, 2021
 **/
 
 public class SystemManager extends JFrame {
+
     private static EnrollmentSystemPanel enrollSys = new EnrollmentSystemPanel();
-    private FloorPlanSystem floorPlan = new FloorPlanSystem();
+    private static FloorPlanSystem floorPlan = new FloorPlanSystem(new String[]{"intro", "contest", "web"});
+    private static SeatingAssignmentSystem seatingPlan  = new SeatingAssignmentSystem();
     private Image csLogo;
     JFrame thisFrame;
-   
-    //private SeatingAssignmentSystem seatingPlan  = new SeatingAssignmentSystem();
 
+    /**
+     * SystemManager constructor
+     */
     public SystemManager() {
         super("Seating Assignment Manager");
         this.thisFrame = this;
         JPanel mainPanel = new MainPanel();
         
-
         //configure the window  
         this.setSize(900, 500);
-        this.setLocationRelativeTo(null); //start the frame in the center of the screen
+        this.setLocationRelativeTo(null); 
         this.setResizable(false);
 
-        //Create a JButton for the centerPanel
+        //enrollmentButton
         JButton enrollButton = new JButton("Enrollment System");
         enrollButton.setPreferredSize(new Dimension(240, 50));
         enrollButton.setBackground(new Color(255, 255, 255));
         enrollButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                thisFrame.dispose();
                 enrollSys.generateJTable();
             }
         });
 
-        //Create a JButton for the centerPanel
-        JButton instButton = new JButton("Floor Plan System");
-        instButton.setPreferredSize(new Dimension(240, 50));
-        instButton.setBackground(new Color(255, 255, 255));
-        instButton.addActionListener(new ActionListener() {
+        //Floorplansystem button
+        JButton floorPlanButton = new JButton("Floor Plan System");
+        floorPlanButton.setPreferredSize(new Dimension(240, 50));
+        floorPlanButton.setBackground(new Color(255, 255, 255));
+        floorPlanButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
+                floorPlan = new FloorPlanSystem(new String[]{"intro", "contest", "web"});
                 seatingPlan.arrangeStudents(floorPlan, enrollSys.getStudentList());
-                thisFrame.dispose();
-                JFrame floorFrame = new JFrame();
-                JPanel floorPanel = new FloorPanel();
-                floorFrame.setVisible(true);
-                floorFrame.setSize(900, 500);
-                floorFrame.setLocationRelativeTo(null); // start the frame in the center of the screen
-                floorFrame.setResizable(true);
-                floorFrame.add(floorPanel);
+                floorPlan.displayTables();
             }
         });
 
-
-
-        //Create a JButton for the centerPanel
+        //Exitbutton
         JButton exitButton = new JButton("Exit");
         exitButton.setPreferredSize(new Dimension(240, 50));
         exitButton.setBackground(new Color(255, 255, 255));
@@ -78,16 +71,18 @@ public class SystemManager extends JFrame {
         });
 
         mainPanel.add(enrollButton);
-        mainPanel.add(instButton);
+        mainPanel.add(floorPlanButton);
         mainPanel.add(exitButton);
-
-        //add the main panel to the frame
 
         this.add(mainPanel);
         this.setVisible(true);
         this.requestFocusInWindow();
     }
 
+    /**drawLogo 
+     * draws the RHHS Computer Science Logo
+     * @param g the graphics panel
+     */
     public void drawLogo(Graphics g) {
         try {
             csLogo = ImageIO.read(new File("cslogo.png")).getScaledInstance(300, 200, Image.SCALE_DEFAULT);
@@ -96,25 +91,26 @@ public class SystemManager extends JFrame {
         }
         g.drawImage(csLogo, 300, 100, null);
     }
-    class MainPanel extends JPanel {
 
+    /**
+     * [MainPanel.java]
+     * paints images on the system manager, this is an inner class
+     * @author Alex, Nicholas, Samson
+     * @version 1.0 Oct 14, 2021
+     */
+    class MainPanel extends JPanel {
         public void paintComponent(Graphics g) {
-            super.paintComponent(g); //required
+            super.paintComponent(g); 
             setDoubleBuffered(true);
             drawLogo(g);
         }
     }
-    class FloorPanel extends JPanel {
-
-        public void paintComponent(Graphics g) {
-
-            super.paintComponent(g); // required
-            setDoubleBuffered(true);
-            floorPlan.displayTables(g);
-
-        }
-
-    }
+   
+    /**
+     * main 
+     * Main method that starts this application
+     * @param args, String array arguments
+    */
     public static void main(String[] args) {
         new SystemManager();
     }
